@@ -74,6 +74,7 @@
 
   /* ---------- passcode ---------- */
   function sha256hex(str) {
+    if (!(window.crypto && window.crypto.subtle)) return Promise.resolve("plain:" + str);
     var buf = new TextEncoder().encode(str);
     return crypto.subtle.digest("SHA-256", buf).then(function (h) {
       return Array.prototype.map.call(new Uint8Array(h), function (b) {

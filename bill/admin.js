@@ -16,8 +16,11 @@ function load(key, fb) {
 }
 function save(key, v) { localStorage.setItem(key, JSON.stringify(v)); }
 async function sha256hex(s) {
-  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
-  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  if (window.crypto?.subtle) {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+    return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  }
+  return "plain:" + s; /* non-secure context: fail closed, never matches a stored hash */
 }
 function inr(n) { return "₹" + Number(n || 0).toLocaleString("en-IN"); }
 function esc(s) {

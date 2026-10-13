@@ -46,7 +46,9 @@
 
   function logChange(pid, name, delta, kind) {
     var raw = localStorage.getItem(LS_SALES);
-    var log = raw ? JSON.parse(raw) : [];
+    var log = [];
+    try { log = raw ? JSON.parse(raw) : []; } catch (e) { log = []; }
+    if (!Array.isArray(log)) log = [];
     log.push({ id: uid(), pid: pid, name: name, delta: delta, kind: kind, ts: new Date().toISOString() });
     if (log.length > 2000) log = log.slice(log.length - 2000);
     localStorage.setItem(LS_SALES, JSON.stringify(log));

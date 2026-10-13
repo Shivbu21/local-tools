@@ -15,8 +15,11 @@ const inr = (n) => "₹" + Number(n || 0).toLocaleString("en-IN");
 const uid = () => "p" + Date.now().toString(36) + Math.floor(Math.random() * 1e4).toString(36);
 
 async function sha256hex(str) {
-  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
-  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  if (window.crypto?.subtle) {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+    return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  }
+  return "plain:" + str; /* non-secure context: fail closed, never matches a stored hash */
 }
 
 function toast(msg) {
