@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>BillQ — Owner Dashboard</title>
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+
+<!-- ============ PASSCODE LOCK ============ -->
+<div class="wrap" id="view-lock" hidden>
+  <div class="lockwrap">
+    <div class="lock">
+      <span class="brandmark">₹</span>
+      <h1>BillQ dashboard</h1>
+      <p class="muted small" style="margin:0 0 16px">Enter your passcode to continue.</p>
+      <div class="field" style="text-align:left">
+        <input type="password" id="inPass" inputmode="numeric" autocomplete="off" placeholder="••••" aria-label="Passcode" />
+      </div>
+      <div class="err" id="passErr" style="color:var(--bad);font-size:13.5px;min-height:20px;margin:0 0 6px"></div>
+      <button class="btn primary" id="btnUnlock">Unlock</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ DASHBOARD ============ -->
+<div class="wrap wide" id="view-dash" hidden>
+  <div class="topbar">
+    <div class="brand">
+      <span class="brandmark">₹</span>
+      <span class="brandtext"><strong>BillQ</strong><small id="bizLine">Owner dashboard</small></span>
+    </div>
+    <button class="btn ghost small" id="btnLock">Lock</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="n" id="stCollected">₹0</div><div class="l">Collected</div></div>
+    <div class="stat hot"><div class="n" id="stPending">₹0</div><div class="l">Pending</div></div>
+    <div class="stat"><div class="n" id="stDefaulters">0</div><div class="l">Defaulters</div></div>
+  </div>
+
+  <div class="card">
+    <div class="row" style="margin-bottom:10px">
+      <h3 style="margin:0">Bills</h3>
+      <input type="month" id="selMonth" aria-label="Month" style="font:inherit;font-size:14px;padding:8px 10px;border:1.5px solid var(--line);border-radius:10px" />
+    </div>
+    <div class="btnrow" style="margin-top:0">
+      <button class="btn primary" id="btnGenerate" style="width:auto;flex:1">Generate this month's bills</button>
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" data-tab="bills" aria-selected="true">Bills<span class="c" id="cBills"></span></button>
+    <button role="tab" data-tab="defaulters" aria-selected="false">Defaulters<span class="c" id="cDef"></span></button>
+    <button role="tab" data-tab="customers" aria-selected="false">Customers<span class="c" id="cCust"></span></button>
+    <button role="tab" data-tab="settings" aria-selected="false">Settings</button>
+  </div>
+
+  <div id="tab-bills"></div>
+  <div id="tab-defaulters" hidden></div>
+  <div id="tab-customers" hidden></div>
+  <div id="tab-settings" hidden></div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="admin.js"></script>
+</body>
+</html>

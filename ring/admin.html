@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>RingQ — owner dashboard</title>
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+
+  <!-- ============ PASSCODE LOCK ============ -->
+  <div class="wrap" id="view-lock" hidden>
+    <div class="lockwrap">
+      <div class="lock">
+        <span class="brandmark">R</span>
+        <div style="font-size:12px;font-weight:800;letter-spacing:0.08em;color:var(--muted)">RINGQ · OWNER</div>
+        <h1 class="page" style="margin-bottom:8px">Welcome back</h1>
+        <p class="sub" style="margin-bottom:18px">Enter your passcode to continue.</p>
+        <input type="password" id="inPass" inputmode="numeric" autocomplete="off" placeholder="••••" aria-label="Passcode" />
+        <div class="err" id="passErr">Wrong passcode. Try again.</div>
+        <div style="height:14px"></div>
+        <button class="btn primary" id="btnUnlock">Unlock</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ DASHBOARD ============ -->
+  <div class="wrap wide" id="view-dash" hidden>
+    <header class="top">
+      <div class="brand">
+        <span class="brandmark">R</span>
+        <span class="brandtext"><strong>RingQ</strong><small>Owner dashboard · <span id="todayLine">Today</span></small></span>
+      </div>
+      <div class="topactions">
+        <a class="btn ghost small" href="index.html">Simulator</a>
+        <button class="btn ghost small" id="btnPasscode">Passcode</button>
+      </div>
+    </header>
+
+    <div class="stats">
+      <div class="stat"><div class="n" id="stToday">0</div><div class="l">Missed calls today</div></div>
+      <div class="stat"><div class="n" id="stSent">0</div><div class="l">Messages sent</div></div>
+      <div class="stat"><div class="n" id="stPending">0</div><div class="l">Awaiting reply</div></div>
+    </div>
+
+    <section class="card">
+      <div class="sectitle">
+        <h2>Event log</h2>
+        <button class="btn ghost small" id="btnClear">Clear log</button>
+      </div>
+      <div id="eventList"></div>
+    </section>
+
+    <section class="card">
+      <h2 class="sec">Reply template</h2>
+      <p class="sub" style="margin-bottom:10px">Edits here apply to the simulator too. Placeholders:
+        <span class="phchip">{name}</span> <span class="phchip">{business}</span> <span class="phchip">{menu_link}</span>
+      </p>
+      <div class="field">
+        <textarea id="edTemplate" rows="5"></textarea>
+      </div>
+      <button class="btn primary" id="btnSaveTpl" style="max-width:280px">Save template</button>
+    </section>
+
+    <section class="card">
+      <h2 class="sec">Real auto-send: provider hookup</h2>
+      <div class="note"><strong>Honest note:</strong> a missed call can't trigger a browser on its own.
+        Real auto-send needs a telephony provider (Exotel / Knowlarity) to detect the missed call,
+        plus WhatsApp Business API to send the reply. The simulator + one-tap send above work today
+        with no provider. Full contract and sample server in <code>HOOK.md</code>.</div>
+
+      <h3 style="font-size:14.5px;margin:14px 0 4px">What the provider sends you</h3>
+      <p class="sub" style="margin-bottom:6px">On every missed call, Exotel / Knowlarity POST to your webhook URL:</p>
+      <table class="contract">
+        <tr><th>Field</th><th>Meaning</th></tr>
+        <tr><td><code>From</code></td><td>Caller's phone number</td></tr>
+        <tr><td><code>To</code></td><td>Your missed-call number</td></tr>
+        <tr><td><code>timestamp</code></td><td>When the call came in (ISO)</td></tr>
+      </table>
+
+      <h3 style="font-size:14.5px;margin:14px 0 4px">Sample server (Node + Express, ~30 lines)</h3>
+      <pre class="code" id="hookCode"></pre>
+
+      <h3 style="font-size:14.5px;margin:14px 0 4px">Setup checklist</h3>
+      <p class="sub" style="margin:0">
+        1. Get a virtual number from Exotel / Knowlarity and point its missed-call webhook at your server URL.<br />
+        2. Deploy the sample handler (any VPS / Render / Railway).<br />
+        3. Connect WhatsApp Business API (Meta) for the reply number.<br />
+        4. Paste the same template from above into the handler's <code>TEMPLATE</code> constant.<br />
+        5. Give a missed call to your number — the reply lands on WhatsApp automatically.
+      </p>
+    </section>
+  </div>
+
+  <!-- ============ PASSCODE MODAL ============ -->
+  <div class="modal-back" id="passModal">
+    <div class="modal">
+      <h3>Change passcode</h3>
+      <div class="field">
+        <label for="pwCur">Current passcode</label>
+        <input type="password" id="pwCur" inputmode="numeric" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label for="pwNew">New passcode (min 4 characters)</label>
+        <input type="password" id="pwNew" inputmode="numeric" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label for="pwConfirm">Confirm new passcode</label>
+        <input type="password" id="pwConfirm" inputmode="numeric" autocomplete="off" />
+      </div>
+      <div class="err" id="pwErr" style="display:none;color:var(--bad);font-size:13.5px;margin-bottom:10px"></div>
+      <div style="display:flex;gap:10px">
+        <button class="btn primary" id="pwSave" style="flex:1">Save</button>
+        <button class="btn ghost" id="pwCancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="admin.js"></script>
+</body>
+</html>

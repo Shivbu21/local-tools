@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>DukaanQ — WhatsApp storefront</title>
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="in">
+      <div class="brand">
+        <span class="brandmark">D</span>
+        <span class="brandtext"><strong id="shopName">DukaanQ</strong><small id="shopSub">WhatsApp storefront</small></span>
+      </div>
+      <div class="topactions">
+        <button class="btn ghost small" id="btnCartTop" hidden>🛒 <span id="cartCountTop">0</span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="searchbar"><input id="inSearch" type="search" placeholder="Search products…" aria-label="Search products" /></div>
+    <div class="chips" id="catChips"></div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="emptyState" hidden>
+      <div class="big">🏪</div>
+      <strong>No products yet</strong>
+      <p style="margin:6px 0 0">This shop is still setting up its shelves.<br />Check back soon.</p>
+    </div>
+  </div>
+
+  <button class="fab" id="btnCart" hidden>🛒 Cart <span class="n" id="cartCount">0</span></button>
+
+  <!-- cart + checkout drawer -->
+  <div class="scrim" id="scrim" hidden></div>
+  <div class="drawer" id="drawer" hidden role="dialog" aria-label="Cart">
+    <div class="hd"><strong>Your cart</strong><button class="xbtn" id="btnCloseDrawer" aria-label="Close">✕</button></div>
+    <div class="bd">
+      <div id="cartItems"></div>
+      <div class="totrow"><span>Total</span><span class="t" id="cartTotal">₹0</span></div>
+      <div class="secttl">Delivery details</div>
+      <div class="field" data-f="name"><label for="inName">Your name</label><input id="inName" autocomplete="name" placeholder="Full name" /></div>
+      <div class="field" data-f="phone"><label for="inPhone">Phone</label><input id="inPhone" inputmode="tel" autocomplete="tel" placeholder="10-digit mobile number" /></div>
+      <div class="field" data-f="address"><label for="inAddr">Delivery address</label><textarea id="inAddr" placeholder="House no, street, area, landmark"></textarea></div>
+      <button class="btn primary" id="btnPlace">Place order</button>
+      <p class="meta" style="margin-top:10px">Pay on UPI after placing the order, then send it on WhatsApp so the shop can confirm.</p>
+    </div>
+  </div>
+
+  <!-- order confirmation -->
+  <div class="drawer" id="doneSheet" hidden role="dialog" aria-label="Order placed">
+    <div class="hd"><strong>Order placed</strong><button class="xbtn" id="btnCloseDone" aria-label="Close">✕</button></div>
+    <div class="bd">
+      <div class="donehero">
+        <div class="tick">✅</div>
+        <h2>Thanks, <span id="doneName">friend</span>!</h2>
+        <p>Your order <strong id="doneId"></strong> is with the shop.<br />Complete these two steps:</p>
+      </div>
+      <div class="ordbox" id="doneBox"></div>
+      <div class="paystack">
+        <a class="btn primary" id="btnPay" href="#">💳 Pay now on UPI</a>
+        <a class="btn wa" id="btnWA" href="#" target="_blank" rel="noopener">💬 Send order on WhatsApp</a>
+        <button class="btn ghost" id="btnShopMore">Continue shopping</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>BillQ — Your bill</title>
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brand">
+    <span class="brandmark">₹</span>
+    <span class="brandtext"><strong>BillQ</strong><small>Subscription billing, made simple</small></span>
+  </header>
+
+  <!-- ============ BILL VIEW ============ -->
+  <div id="view-bill" hidden>
+    <div class="card">
+      <div class="billhero">
+        <div class="biz" id="bBiz">—</div>
+        <div class="month" id="bMonth">—</div>
+        <div class="amount"><span class="cur">₹</span><span id="bAmount">0</span></div>
+        <div><span class="st unpaid" id="bStatus">Unpaid</span></div>
+      </div>
+      <div class="divider"></div>
+      <div class="kv"><span class="k">Customer</span><span class="v" id="bCustomer">—</span></div>
+      <div class="kv"><span class="k">Plan</span><span class="v" id="bPlan">—</span></div>
+      <div class="kv"><span class="k">Bill ID</span><span class="v mono" id="bId">—</span></div>
+      <div class="kv"><span class="k">Due date</span><span class="v" id="bDue">—</span></div>
+      <div class="kv" id="rowPaid" hidden><span class="k">Paid on</span><span class="v" id="bPaidOn">—</span></div>
+    </div>
+    <div id="payBlock">
+      <a class="btn primary" id="btnPay" href="#">Pay ₹<span id="payAmt">0</span> via UPI</a>
+      <p class="muted small" style="text-align:center;margin-top:10px">
+        Opens your UPI app (GPay, PhonePe, Paytm) with the amount filled in.
+      </p>
+    </div>
+    <div class="card" id="noUpi" hidden>
+      <p class="muted small" style="margin:0">The owner hasn't set up UPI payments yet. Please pay in cash or ask them for their UPI ID.</p>
+    </div>
+    <div class="card" id="paidNote" hidden>
+      <p style="margin:0;text-align:center;font-weight:700;color:var(--ok)">✓ This bill is paid. Thank you!</p>
+    </div>
+  </div>
+
+  <!-- ============ LOOKUP VIEW (no bill param) ============ -->
+  <div id="view-lookup" hidden>
+    <div class="card">
+      <h3>Find my bills</h3>
+      <p class="muted small">Enter the mobile number you gave your service provider.</p>
+      <div class="field">
+        <label for="inPhone">Mobile number</label>
+        <input id="inPhone" inputmode="numeric" placeholder="10-digit mobile number" maxlength="13" />
+      </div>
+      <button class="btn primary" id="btnLookup">Show my bills</button>
+    </div>
+    <div id="lookupResults"></div>
+  </div>
+
+  <!-- ============ NOT FOUND ============ -->
+  <div id="view-missing" hidden>
+    <div class="card">
+      <h3>Bill not found</h3>
+      <p class="muted small">This bill link doesn't match any bill on this device. Bills live on the owner's device — ask them to resend your link.</p>
+      <a class="linklike" href="index.html">Look up by mobile number →</a>
+    </div>
+  </div>
+
+</div>
+<script src="app.js"></script>
+</body>
+</html>

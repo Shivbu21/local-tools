@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>DukaanQ — Owner dashboard</title>
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+  <!-- passcode lock -->
+  <div class="wrap" id="view-lock">
+    <div class="lockwrap">
+      <div class="lock">
+        <span class="brandmark">D</span>
+        <h1>Welcome back</h1>
+        <p>Enter your store passcode to continue.</p>
+        <div class="field"><input type="password" id="inPass" inputmode="numeric" autocomplete="off" placeholder="••••" aria-label="Passcode" /></div>
+        <div class="err" id="passErr">Wrong passcode. Try again.</div>
+        <div style="height:14px"></div>
+        <button class="btn primary" id="btnUnlock">Unlock</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- dashboard -->
+  <div id="view-dash" hidden>
+    <header class="top">
+      <div class="in">
+        <div class="brand">
+          <span class="brandmark">D</span>
+          <span class="brandtext"><strong id="dashShop">DukaanQ</strong><small>Owner dashboard</small></span>
+        </div>
+        <div class="topactions">
+          <a class="btn ghost small" href="index.html" target="_blank" rel="noopener">View store</a>
+          <button class="btn ghost small" id="btnPasscode">Passcode</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="wrap wide">
+      <div class="stats">
+        <div class="stat"><div class="n" id="stOrders">0</div><div class="l">Orders today</div></div>
+        <div class="stat"><div class="n" id="stRevenue">₹0</div><div class="l">Revenue today</div></div>
+        <div class="stat"><div class="n" id="stPending">0</div><div class="l">Pending</div></div>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button role="tab" data-tab="orders" aria-selected="true">Orders</button>
+        <button role="tab" data-tab="products" aria-selected="false">Products</button>
+        <button role="tab" data-tab="setup" aria-selected="false">Setup</button>
+      </div>
+
+      <!-- orders -->
+      <div id="tab-orders">
+        <div id="orderList"></div>
+        <div class="empty" id="noOrders" hidden><div class="big">📦</div><strong>No orders yet</strong><p style="margin:6px 0 0">Share your store link and orders will land here.</p></div>
+      </div>
+
+      <!-- products -->
+      <div id="tab-products" hidden>
+        <button class="btn primary" id="btnNewProduct" style="max-width:320px;margin-bottom:14px">+ Add product</button>
+        <div id="productList"></div>
+        <div class="card" id="productForm" hidden>
+          <div class="secttl" style="margin-top:0" id="pfTitle">Add product</div>
+          <div class="photobox">
+            <img id="pfPreview" alt="Product photo preview" />
+            <div>
+              <input type="file" id="pfPhoto" accept="image/*" aria-label="Product photo" />
+              <div class="hint">Photo is resized to fit under ~500KB.</div>
+            </div>
+          </div>
+          <div class="field" data-f="pname"><label for="pfName">Product name</label><input id="pfName" placeholder="e.g. Cotton kurti" /></div>
+          <div class="field" data-f="pprice"><label for="pfPrice">Price (₹)</label><input id="pfPrice" inputmode="decimal" placeholder="e.g. 499" /></div>
+          <div class="field"><label for="pfCat">Category</label><input id="pfCat" placeholder="e.g. Clothing (optional)" /></div>
+          <div style="display:flex;gap:10px">
+            <button class="btn primary" id="btnSaveProduct" style="flex:1">Save</button>
+            <button class="btn ghost" id="btnCancelProduct">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- setup -->
+      <div id="tab-setup" hidden>
+        <div class="card">
+          <div class="secttl" style="margin-top:0">Store details</div>
+          <div class="field"><label for="sShop">Shop name</label><input id="sShop" placeholder="e.g. Sharma General Store" /></div>
+          <div class="field"><label for="sWA">Owner WhatsApp number</label><input id="sWA" inputmode="tel" placeholder="10-digit mobile number" /><div class="hint">Orders are sent here on WhatsApp.</div></div>
+          <div class="field"><label for="sUPI">UPI ID</label><input id="sUPI" placeholder="e.g. shopname@upi" /><div class="hint">Customers pay to this UPI ID.</div></div>
+          <button class="btn primary" id="btnSaveSetup">Save details</button>
+        </div>
+        <div class="card">
+          <div class="secttl" style="margin-top:0">Change passcode</div>
+          <div class="field"><label for="pcCur">Current passcode</label><input type="password" id="pcCur" inputmode="numeric" autocomplete="off" /></div>
+          <div class="field"><label for="pcNew">New passcode</label><input type="password" id="pcNew" inputmode="numeric" autocomplete="off" placeholder="Min 4 characters" /></div>
+          <div class="field"><label for="pcNew2">Confirm new passcode</label><input type="password" id="pcNew2" inputmode="numeric" autocomplete="off" /></div>
+          <div class="err" id="pcErr"></div>
+          <button class="btn primary" id="btnChangePass">Change passcode</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>RingQ — missed-call → WhatsApp</title>
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand">
+        <span class="brandmark">R</span>
+        <span class="brandtext"><strong>RingQ</strong><small>Missed call → WhatsApp reply</small></span>
+      </div>
+      <a class="toplink" href="admin.html">Owner login →</a>
+    </header>
+
+    <h1 class="page">Never miss a<br />missed call.</h1>
+    <p class="sub">A customer calls, hangs up, and instantly gets your WhatsApp reply —
+      price list, booking link, or address. Set it up below, then test it with the simulator.</p>
+
+    <!-- ============ 1. BUSINESS CONFIG ============ -->
+    <section class="card" id="sec-config">
+      <h2 class="sec">Your business</h2>
+      <div class="field" data-f="business">
+        <label for="inBusiness">Business name</label>
+        <input id="inBusiness" type="text" placeholder="Sharma Sweets" autocomplete="organization" />
+        <div class="err">Please enter your business name.</div>
+      </div>
+      <div class="row2">
+        <div class="field" data-f="missed">
+          <label for="inMissed">Missed-call number</label>
+          <input id="inMissed" type="tel" inputmode="tel" placeholder="+91 98765 43210" />
+          <div class="err">Enter the number that receives missed calls.</div>
+        </div>
+        <div class="field" data-f="wa">
+          <label for="inWa">WhatsApp reply number</label>
+          <input id="inWa" type="tel" inputmode="tel" placeholder="+91 98765 43210" />
+          <div class="err">Enter the WhatsApp number replies go from.</div>
+        </div>
+      </div>
+      <div class="field">
+        <label for="inLink">Link used in replies <span style="color:var(--faint);font-weight:400">(menu, booking page, map…)</span></label>
+        <input id="inLink" type="url" inputmode="url" placeholder="https://…" />
+      </div>
+    </section>
+
+    <!-- ============ 2. REPLY TEMPLATE ============ -->
+    <section class="card" id="sec-template">
+      <h2 class="sec">Reply message</h2>
+      <p class="sub" style="margin-bottom:10px">Pick a preset or write your own. Placeholders fill in automatically.</p>
+      <div class="presets" id="presets"></div>
+      <div class="field">
+        <label for="inTemplate">Message template</label>
+        <textarea id="inTemplate" rows="5"></textarea>
+        <div class="phchips">
+          <span class="phchip">{name}</span>
+          <span class="phchip">{business}</span>
+          <span class="phchip">{menu_link}</span>
+        </div>
+      </div>
+      <button class="btn primary" id="btnSave">Save setup</button>
+      <p class="hint" id="saveHint" hidden>Saved on this device. The dashboard reads the same setup.</p>
+    </section>
+
+    <!-- ============ 3. MISSED-CALL SIMULATOR ============ -->
+    <section class="card" id="sec-sim">
+      <h2 class="sec">Missed-call simulator</h2>
+      <p class="sub" style="margin-bottom:12px">Try the full flow: enter a caller's number, and see exactly
+        what they would receive on WhatsApp.</p>
+      <div class="row2">
+        <div class="field" data-f="caller">
+          <label for="inCaller">Caller's phone number</label>
+          <input id="inCaller" type="tel" inputmode="tel" placeholder="+91 90000 11111" />
+          <div class="err">Enter a valid phone number (10+ digits).</div>
+        </div>
+        <div class="field">
+          <label for="inCallerName">Caller's name <span style="color:var(--faint);font-weight:400">(optional)</span></label>
+          <input id="inCallerName" type="text" placeholder="Aarav" />
+        </div>
+      </div>
+      <button class="btn primary" id="btnSim">Simulate missed call</button>
+
+      <div id="simResult" hidden>
+        <div class="wa-preview">
+          <div class="wa-label">WHATSAPP · WHAT THE CUSTOMER SEES</div>
+          <div class="wa-bubble" id="waBubble"></div>
+          <div class="wa-time" id="waTime"></div>
+        </div>
+        <div style="height:12px"></div>
+        <a class="btn wa" id="waLink" href="#" target="_blank" rel="noopener">Open in WhatsApp to send</a>
+        <p class="hint">Opens WhatsApp with this exact message addressed to the caller —
+          one tap on send and it's delivered for real.</p>
+        <button class="btn ghost small" id="btnMarkSent" style="margin-top:10px">I sent it — mark as sent</button>
+      </div>
+    </section>
+
+    <p class="hint" style="text-align:center">Real auto-send needs a telephony provider (Exotel / Knowlarity)
+      + WhatsApp Business API. The simulator and one-tap send work today —
+      see <a href="admin.html" style="color:var(--brand);font-weight:700">Owner login</a> for the hookup guide.</p>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>

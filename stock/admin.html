@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>StockQ — Owner Dashboard</title>
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+
+  <!-- ============ PASSCODE LOCK ============ -->
+  <div class="wrap" id="view-lock" hidden>
+    <div class="lockwrap">
+      <div class="lock">
+        <span class="brandmark">S</span>
+        <div class="brandtext" style="margin-bottom:6px"><strong>StockQ · Owner</strong></div>
+        <p class="sub">Enter your owner passcode to continue.</p>
+        <input type="password" id="inPass" inputmode="numeric" autocomplete="off" placeholder="••••" aria-label="Owner passcode" />
+        <div class="err" id="passErr">Wrong passcode. Try again.</div>
+        <div style="height:14px"></div>
+        <button class="btn primary" id="btnUnlock">Unlock</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ DASHBOARD ============ -->
+  <div class="wrap wide" id="view-dash" hidden>
+    <header class="top">
+      <div class="brand">
+        <span class="brandmark">S</span>
+        <span class="brandtext"><strong>StockQ</strong><small>Owner dashboard</small></span>
+      </div>
+      <div class="topactions">
+        <a class="btn ghost small" href="index.html">Counter</a>
+        <button class="btn ghost small" id="btnPasscode">Passcode</button>
+      </div>
+    </header>
+
+    <div class="stats">
+      <div class="stat warn"><div class="n" id="stLow">0</div><div class="l">Low stock</div></div>
+      <div class="stat alert"><div class="n" id="stOut">0</div><div class="l">Out of stock</div></div>
+      <div class="stat"><div class="n" id="stSales">0</div><div class="l">Units sold today</div></div>
+    </div>
+
+    <h2 class="sec">⚠️ Low-stock alerts</h2>
+    <div class="card" id="alertCard">
+      <div id="alertList"></div>
+    </div>
+
+    <h2 class="sec">📦 Order from suppliers</h2>
+    <div id="supplierList"></div>
+
+    <h2 class="sec">🧾 Products</h2>
+    <div class="card">
+      <div class="frow">
+        <div class="field"><label for="fName">Product name</label><input id="fName" placeholder="e.g. Atta" /></div>
+        <div class="field"><label for="fUnit">Unit</label><input id="fUnit" placeholder="e.g. 10 kg, 1 L, pc" /></div>
+      </div>
+      <div class="frow">
+        <div class="field"><label for="fStock">Current stock</label><input id="fStock" type="number" min="0" value="0" /></div>
+        <div class="field"><label for="fReorder">Reorder point</label><input id="fReorder" type="number" min="0" value="5" /></div>
+      </div>
+      <div class="frow">
+        <div class="field"><label for="fSupplier">Supplier name</label><input id="fSupplier" placeholder="e.g. Sharma Traders" /></div>
+        <div class="field"><label for="fPhone">Supplier WhatsApp no.</label><input id="fPhone" type="tel" placeholder="e.g. 9810012345" /></div>
+      </div>
+      <button class="btn primary" id="btnAdd" style="max-width:320px">Add product</button>
+    </div>
+    <div class="card"><div id="prodList"></div></div>
+
+    <h2 class="sec">🧾 Today's sales log</h2>
+    <div class="card"><div id="salesLog"></div></div>
+  </div>
+
+  <!-- ============ PASSCODE MODAL ============ -->
+  <div class="mveil" id="passModal" hidden>
+    <div class="mbox" role="dialog" aria-modal="true" aria-label="Change passcode">
+      <h3>Change passcode</h3>
+      <div class="field"><label for="pCur">Current passcode</label><input id="pCur" type="password" inputmode="numeric" autocomplete="off" /></div>
+      <div class="field"><label for="pNew">New passcode (min 4 chars)</label><input id="pNew" type="password" inputmode="numeric" autocomplete="off" /></div>
+      <div class="field"><label for="pNew2">Confirm new passcode</label><input id="pNew2" type="password" inputmode="numeric" autocomplete="off" /></div>
+      <div class="err" id="pErr"></div>
+      <div class="mrow">
+        <button class="btn ghost" id="pCancel">Cancel</button>
+        <button class="btn primary" id="pSave">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ EDIT PRODUCT MODAL ============ -->
+  <div class="mveil" id="editModal" hidden>
+    <div class="mbox" role="dialog" aria-modal="true" aria-label="Edit product">
+      <h3 id="editTitle">Edit product</h3>
+      <div class="frow">
+        <div class="field"><label for="eName">Name</label><input id="eName" /></div>
+        <div class="field"><label for="eUnit">Unit</label><input id="eUnit" /></div>
+      </div>
+      <div class="frow">
+        <div class="field"><label for="eStock">Stock</label><input id="eStock" type="number" min="0" /></div>
+        <div class="field"><label for="eReorder">Reorder point</label><input id="eReorder" type="number" min="0" /></div>
+      </div>
+      <div class="frow">
+        <div class="field"><label for="eSupplier">Supplier</label><input id="eSupplier" /></div>
+        <div class="field"><label for="ePhone">Supplier WhatsApp</label><input id="ePhone" type="tel" /></div>
+      </div>
+      <div class="err" id="eErr"></div>
+      <div class="mrow">
+        <button class="btn ghost" id="eCancel">Cancel</button>
+        <button class="btn primary" id="eSave">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>VoiceQ — Owner Dashboard</title>
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+
+  <!-- ============ PASSCODE LOCK ============ -->
+  <div class="wrap" id="view-lock" hidden>
+    <div class="lockwrap">
+      <div class="lock">
+        <span class="brandmark">V</span>
+        <div class="n">VOICEQ · OWNER DASHBOARD</div>
+        <h1 class="page" style="margin-bottom:8px">Welcome back</h1>
+        <p class="sub" style="margin-bottom:22px">Enter your owner passcode to continue.</p>
+        <input type="password" id="inPass" inputmode="numeric" autocomplete="off"
+               placeholder="••••" aria-label="Owner passcode" />
+        <div class="err" id="passErr">Wrong passcode. Try again.</div>
+        <div style="height:16px"></div>
+        <button class="btn primary" id="btnUnlock">Unlock</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ DASHBOARD ============ -->
+  <div class="wrap wide" id="view-dash" hidden>
+    <header class="top">
+      <div class="brand">
+        <span class="brandmark">V</span>
+        <span class="brandtext"><strong>VoiceQ</strong><small>Owner dashboard · <span id="todayLine">Today</span></small></span>
+      </div>
+      <div class="topactions">
+        <a class="btn ghost small" href="index.html">Test call page</a>
+        <button class="btn ghost small" id="btnPasscode">Passcode</button>
+      </div>
+    </header>
+
+    <div class="stats">
+      <div class="stat"><div class="n" id="stCalls">0</div><div class="l">Calls today</div></div>
+      <div class="stat"><div class="n" id="stBookings">0</div><div class="l">Bookings</div></div>
+      <div class="stat"><div class="n" id="stMissed">0</div><div class="l">Missed intents</div></div>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button role="tab" data-tab="appts" aria-selected="true">Appointments</button>
+      <button role="tab" data-tab="calls" aria-selected="false">Call log</button>
+      <button role="tab" data-tab="biz" aria-selected="false">Business</button>
+      <button role="tab" data-tab="tel" aria-selected="false">Phone hookup</button>
+    </div>
+
+    <!-- appointments -->
+    <div id="tab-appts">
+      <div class="card">
+        <h2>Add appointment</h2>
+        <p class="hint">Manually add a booking (e.g. taken on your own phone).</p>
+        <div class="row2">
+          <div class="field"><label for="mName">Name</label><input type="text" id="mName" autocomplete="off" /></div>
+          <div class="field"><label for="mPhone">Phone</label><input type="tel" id="mPhone" autocomplete="off" /></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="mDate">Date</label><input type="text" id="mDate" placeholder="e.g. Tomorrow" autocomplete="off" /></div>
+          <div class="field"><label for="mTime">Time</label><input type="text" id="mTime" placeholder="e.g. 5 PM" autocomplete="off" /></div>
+        </div>
+        <button class="btn primary" id="btnAddAppt" style="max-width:280px">Add appointment</button>
+      </div>
+      <div id="apptList"></div>
+    </div>
+
+    <!-- call log -->
+    <div id="tab-calls" hidden>
+      <div id="callList"></div>
+    </div>
+
+    <!-- business -->
+    <div id="tab-biz" hidden>
+      <div class="card">
+        <h2>Business profile</h2>
+        <p class="hint">Same profile the receptionist speaks from. Changes apply to the next test call.</p>
+        <div class="field">
+          <label for="bShop">Shop name</label>
+          <input type="text" id="bShop" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label>Services</label>
+          <div class="svc-list" id="bSvcList"></div>
+          <div class="svc-add">
+            <input type="text" id="bSvc" placeholder="e.g. Haircut" autocomplete="off" />
+            <button class="btn ghost small" id="bAddSvc" type="button">Add</button>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="bHours">Opening hours</label><input type="text" id="bHours" autocomplete="off" /></div>
+          <div class="field"><label for="bPhone">Owner phone</label><input type="tel" id="bPhone" autocomplete="off" /></div>
+        </div>
+        <div class="field">
+          <label for="bGreeting">Greeting</label>
+          <textarea id="bGreeting"></textarea>
+        </div>
+        <button class="btn primary" id="btnSaveBiz" style="max-width:280px">Save profile</button>
+      </div>
+    </div>
+
+    <!-- telephony -->
+    <div id="tab-tel" hidden>
+      <div class="card docs">
+        <h2>Take VoiceQ to a real phone line</h2>
+        <p class="hint">The test-call panel on the previous page runs entirely in the browser (Web Speech API). To answer <strong>real phone calls</strong>, connect a telephony provider. The AI brain stays the same — only the ears and mouth change.</p>
+
+        <h3>Option A · Twilio (works worldwide)</h3>
+        <ol>
+          <li>Buy a phone number in the Twilio console.</li>
+          <li>Point its <span class="inline"><code class="inline">Voice webhook</code></span> at your server: <code class="inline">https://your-server/voice-webhook</code></li>
+          <li>When a call comes in, Twilio <code class="inline">POST</code>s the caller details. Your server replies with TwiML — the same greeting VoiceQ speaks in the browser:</li>
+        </ol>
+<pre>&lt;Response&gt;
+  &lt;Say voice="alice" language="en-IN"&gt;
+    Namaste! You've reached Sharma Salon. How can I help you?
+  &lt;/Say&gt;
+  &lt;Gather input="speech" speechTimeout="auto"
+          action="https://your-server/voice-webhook" method="POST" /&gt;
+&lt;/Response&gt;</pre>
+        <ol start="4">
+          <li>Twilio transcribes the caller's speech and <code class="inline">POST</code>s <code class="inline">SpeechResult</code> to your <code class="inline">action</code> URL.</li>
+          <li>Your server runs the <strong>same intent brain</strong> as this page (booking → hours → services → price → fallback), then replies with the next <code class="inline">&lt;Say&gt;</code> + <code class="inline">&lt;Gather&gt;</code> pair.</li>
+          <li>When a booking completes, save it exactly like the browser does — the dashboard reads the same appointment list.</li>
+        </ol>
+
+        <h3>Option B · Exotel (popular in India)</h3>
+        <p>Same idea: Exotel calls your webhook on incoming calls (<code class="inline">CallFrom</code>), you return a response with a <code class="inline">speak</code> + <code class="inline">gather</code> applet, and Exotel posts the transcribed speech back. The webhook contract is equivalent — swap TwiML for Exotel's applet JSON.</p>
+
+        <h3>The webhook contract (either provider)</h3>
+<pre>POST /voice-webhook
+  { "From": "+919811022334", "SpeechResult": "i want to book an appointment" }
+
+-&gt; 200 OK, TwiML:
+&lt;Response&gt;
+  &lt;Say&gt;Sure, I can book that for you. What's your name?&lt;/Say&gt;
+  &lt;Gather input="speech" action="/voice-webhook" method="POST"/&gt;
+&lt;/Response&gt;</pre>
+        <p>Keep one conversation state per <code class="inline">CallSid</code> / caller number (name → date → time), exactly like the booking flow in the test-call panel.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- passcode change modal -->
+  <div class="modal-back" id="passModal" hidden>
+    <div class="modal">
+      <h3>Change passcode</h3>
+      <div class="field"><label for="pCur">Current passcode</label><input type="password" id="pCur" inputmode="numeric" /></div>
+      <div class="field"><label for="pNew">New passcode (min 4 characters)</label><input type="password" id="pNew" inputmode="numeric" /></div>
+      <div class="field"><label for="pCon">Confirm new passcode</label><input type="password" id="pCon" inputmode="numeric" /></div>
+      <div class="err" id="pErr"></div>
+      <div class="btn-row">
+        <button class="btn primary small" id="btnSavePass" style="width:auto">Save new passcode</button>
+        <button class="btn ghost small" id="btnCancelPass">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script type="module" src="admin.js"></script>
+  <script>
+    setTimeout(function () {
+      if (window.__vqBoot) return;
+      var t = document.getElementById("toast");
+      t.textContent = "Preview tip: serve this folder over HTTP (run: python3 -m http.server) — it does not run from file://.";
+      t.classList.add("show");
+    }, 2500);
+  </script>
+</body>
+</html>

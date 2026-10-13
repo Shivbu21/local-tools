@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#f5f2ea" />
+  <title>CardQ — Card Builder</title>
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+
+  <!-- ============ PASSCODE LOCK ============ -->
+  <div class="page" id="view-lock" hidden>
+    <div class="lockwrap">
+      <div class="lock">
+        <div class="mark">Q</div>
+        <h1>Card builder</h1>
+        <p>Enter your CardQ passcode to edit your business card.</p>
+        <div class="err" id="passErr"></div>
+        <input type="password" id="inPass" inputmode="numeric" autocomplete="off" placeholder="••••" aria-label="Passcode" />
+        <button class="btn accent" id="btnUnlock">Unlock</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ BUILDER ============ -->
+  <div class="page" id="view-builder" hidden>
+    <header class="adm-head">
+      <div class="mark">Q</div>
+      <div>
+        <h1>Card builder</h1>
+        <p>Everything saves automatically as you type.</p>
+      </div>
+      <div class="sp"></div>
+      <span class="saved-flag" id="savedFlag">Saved ✓</span>
+    </header>
+
+    <div class="adm-grid">
+      <div>
+        <section class="panel" style="margin-bottom:20px">
+          <h2>Business</h2>
+          <p class="sub">The basics people see first.</p>
+          <div class="f">
+            <label for="fBiz">Business name</label>
+            <input type="text" id="fBiz" placeholder="e.g. Sharma Sweets" autocomplete="off" />
+          </div>
+          <div class="frow">
+            <div class="f">
+              <label for="fOwner">Owner name</label>
+              <input type="text" id="fOwner" placeholder="e.g. Ramesh Sharma" autocomplete="off" />
+            </div>
+            <div class="f">
+              <label for="fTag">Tagline</label>
+              <input type="text" id="fTag" placeholder="e.g. Fresh mithai since 1987" autocomplete="off" />
+            </div>
+          </div>
+          <div class="f">
+            <label>Photo / logo</label>
+            <div class="photo-pick">
+              <img class="pv" id="photoPrev" alt="Business photo preview" hidden />
+              <div class="pv ph" id="photoPh" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              </div>
+              <div>
+                <label class="btn ghost" for="fPhoto" style="cursor:pointer;display:inline-block">Upload photo</label>
+                <input type="file" id="fPhoto" accept="image/*" hidden />
+                <button class="btn ghost" id="btnPhotoRemove" type="button" style="margin-left:8px">Remove</button>
+                <div class="hint">Square works best. Resized automatically.</div>
+              </div>
+            </div>
+          </div>
+          <div class="f">
+            <label>Card colour</label>
+            <div class="swatches" id="swatches"></div>
+          </div>
+        </section>
+
+        <section class="panel" style="margin-bottom:20px">
+          <h2>Contact &amp; payments</h2>
+          <p class="sub">Tap-to-call, WhatsApp and UPI buttons on the card.</p>
+          <div class="frow">
+            <div class="f">
+              <label for="fPhone">Phone (tap-to-call)</label>
+              <input type="tel" id="fPhone" placeholder="e.g. 98765 43210" autocomplete="off" />
+            </div>
+            <div class="f">
+              <label for="fWa">WhatsApp number</label>
+              <input type="tel" id="fWa" placeholder="e.g. 98765 43210" autocomplete="off" />
+              <div class="hint">Opens a chat when tapped. Can be the same as phone.</div>
+            </div>
+          </div>
+          <div class="f">
+            <label for="fUpi">UPI ID</label>
+            <input type="text" id="fUpi" placeholder="e.g. sharmasweets@upi" autocomplete="off" />
+            <div class="hint">Shows a Pay button that opens the customer's UPI app.</div>
+          </div>
+        </section>
+
+        <section class="panel" style="margin-bottom:20px">
+          <h2>Visit us</h2>
+          <p class="sub">Address, map link and working hours.</p>
+          <div class="f">
+            <label for="fAddr">Address</label>
+            <textarea id="fAddr" placeholder="Shop 12, Main Market, Greater Noida"></textarea>
+          </div>
+          <div class="f">
+            <label for="fMaps">Google Maps link (optional)</label>
+            <input type="url" id="fMaps" placeholder="Paste your Maps share link" autocomplete="off" />
+            <div class="hint">Leave blank to search your address on Maps automatically.</div>
+          </div>
+          <div class="f">
+            <label for="fHours">Working hours</label>
+            <input type="text" id="fHours" placeholder="e.g. Mon–Sat, 9am–9pm" autocomplete="off" />
+          </div>
+        </section>
+
+        <section class="panel" style="margin-bottom:20px">
+          <h2>Services</h2>
+          <p class="sub">What you offer — shown as chips on the card.</p>
+          <div class="svc-list" id="svcList"></div>
+          <div class="svc-add">
+            <input type="text" id="fSvcNew" placeholder="e.g. Kaju Katli" autocomplete="off" />
+            <button class="btn accent" id="btnSvcAdd" type="button">Add</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Share &amp; security</h2>
+          <p class="sub">Your public card link, and the passcode that protects this builder.</p>
+          <div class="linkbtns">
+            <button class="btn accent" id="btnCopyLink" type="button">Copy card link</button>
+            <a class="btn ghost" id="linkView" href="index.html" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">View card</a>
+          </div>
+          <div class="passbox">
+            <div class="f">
+              <label for="fCur">Current passcode</label>
+              <input type="password" id="fCur" inputmode="numeric" autocomplete="off" placeholder="••••" />
+            </div>
+            <div class="frow">
+              <div class="f">
+                <label for="fNew">New passcode</label>
+                <input type="password" id="fNew" inputmode="numeric" autocomplete="off" placeholder="Min 4 characters" />
+              </div>
+              <div class="f">
+                <label for="fNew2">Confirm new passcode</label>
+                <input type="password" id="fNew2" inputmode="numeric" autocomplete="off" placeholder="Repeat it" />
+              </div>
+            </div>
+            <button class="btn" id="btnChangePass" type="button">Change passcode</button>
+          </div>
+        </section>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="preview-frame">
+          <div id="previewMount"></div>
+        </div>
+        <p class="preview-cap">Live preview</p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="admin.js"></script>
+</body>
+</html>

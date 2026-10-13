@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>VoiceQ — AI voice receptionist for your shop</title>
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <span class="brandmark">V</span>
+      <span class="brandtext"><strong>VoiceQ</strong><small>AI voice receptionist</small></span>
+    </div>
+    <a class="btn ghost small" href="admin.html">Owner dashboard</a>
+  </header>
+
+  <h1 class="page">Your shop, answering<br />every call.</h1>
+  <p class="sub">Set up your business below, then test-drive the AI receptionist right in your browser — talk or type.</p>
+
+  <!-- ============ 1 · BUSINESS SETUP ============ -->
+  <section class="card" id="setupCard">
+    <h2>1 · Business setup</h2>
+    <p class="hint">This is what the receptionist knows about your shop. Saved on this device.</p>
+
+    <div class="field">
+      <label for="inShop">Shop name</label>
+      <input type="text" id="inShop" placeholder="e.g. Sharma Salon" autocomplete="off" />
+    </div>
+
+    <div class="field">
+      <label>Services</label>
+      <div class="svc-list" id="svcList"></div>
+      <div class="svc-add">
+        <input type="text" id="inSvc" placeholder="e.g. Haircut" autocomplete="off" />
+        <button class="btn ghost small" id="btnAddSvc" type="button">Add</button>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label for="inHours">Opening hours</label>
+        <input type="text" id="inHours" placeholder="e.g. Mon–Sat, 10 AM – 8 PM" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label for="inPhone">Owner phone</label>
+        <input type="tel" id="inPhone" placeholder="e.g. 98110 22334" autocomplete="off" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="inGreeting">Greeting the caller hears</label>
+      <textarea id="inGreeting" placeholder="Namaste! You've reached {shop}. How can I help you?"></textarea>
+    </div>
+
+    <button class="btn primary" id="btnSave">Save business profile</button>
+  </section>
+
+  <!-- ============ 2 · TEST CALL ============ -->
+  <section class="card" id="callCard">
+    <h2>2 · Test call</h2>
+    <p class="hint">Press <strong>Call now</strong> and talk to your receptionist. If your mic isn't available, just type — the brain works the same way.</p>
+
+    <button class="btn primary" id="btnCall">Call now</button>
+
+    <div id="callPanel" hidden>
+      <div style="height:14px"></div>
+      <div class="call-status idle" id="callStatus"><span class="dot"></span><span id="callStatusText">Ready</span></div>
+      <div class="transcript" id="transcript" aria-live="polite"></div>
+      <div class="call-controls">
+        <input type="text" id="inSay" placeholder="Type what you'd say…" autocomplete="off" />
+        <button class="btn ghost small" id="btnMic" type="button" title="Talk with your mic">Mic</button>
+        <button class="btn primary small" id="btnSend" type="button" style="width:auto">Send</button>
+      </div>
+      <p class="mic-note" id="micNote" hidden>Mic not available in this browser — typing works the same.</p>
+      <div class="btn-row" style="margin-top:12px">
+        <button class="btn danger" id="btnEndCall" type="button">End call</button>
+        <button class="btn ghost small" id="btnMute" type="button" aria-pressed="true">Sound on</button>
+      </div>
+      <div class="call-summary" id="callSummary" hidden></div>
+    </div>
+  </section>
+
+  <footer class="foot">VoiceQ · your AI receptionist · runs in the browser</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+<script type="module" src="app.js"></script>
+<script>
+  setTimeout(function () {
+    if (window.__vqBoot) return;
+    var t = document.getElementById("toast");
+    t.textContent = "Preview tip: serve this folder over HTTP (run: python3 -m http.server) — it does not run from file://.";
+    t.classList.add("show");
+  }, 2500);
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>StockQ — Counter</title>
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand">
+        <span class="brandmark">S</span>
+        <span class="brandtext"><strong>StockQ</strong><small>Counter · tap to sell</small></span>
+      </div>
+      <div class="topactions">
+        <a class="btn ghost small" href="admin.html">Dashboard</a>
+      </div>
+    </header>
+
+    <div style="display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap">
+      <div class="seg" role="tablist" aria-label="Counter mode">
+        <button id="modeSell" class="on" role="tab" aria-selected="true">Sell</button>
+        <button id="modeIn" role="tab" aria-selected="false">Stock in</button>
+      </div>
+      <span id="alertStrip" style="font-size:13.5px;color:var(--muted);font-weight:600"></span>
+    </div>
+
+    <div class="searchbar">
+      <input id="q" type="search" placeholder="Search products…" autocomplete="off" aria-label="Search products" />
+    </div>
+
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" hidden>No products match. Add them in the dashboard.</div>
+
+    <p class="kbd-hint">Tap a product to sell 1 unit · Long-press a card for − / + corrections · "Stock in" mode adds received stock.</p>
+  </div>
+
+  <div class="pop-veil" id="popVeil" hidden>
+    <div class="pop" role="dialog" aria-modal="true" aria-label="Adjust stock">
+      <h3 id="popName">Product</h3>
+      <div class="cur" id="popCur">Current stock</div>
+      <div class="stepper">
+        <button class="neg" id="popMinus" aria-label="Decrease stock">−</button>
+        <div class="val" id="popVal">0</div>
+        <button id="popPlus" aria-label="Increase stock">+</button>
+      </div>
+      <button class="btn primary" id="popClose">Done</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
